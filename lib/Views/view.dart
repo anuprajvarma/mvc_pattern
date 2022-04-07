@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mvc/controller/controller.dart';
 
 class View extends StatefulWidget {
   View({Key? key}) : super(key: key);
@@ -8,13 +9,7 @@ class View extends StatefulWidget {
 }
 
 class _ViewState extends State<View> {
-  int c = 0;
-
-  void increment() {
-    setState(() {
-      c++;
-    });
-  }
+  final Controller _controller = Controller();
 
   @override
   Widget build(BuildContext context) {
@@ -28,14 +23,27 @@ class _ViewState extends State<View> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('0'),
+              Text(
+                _controller != null ? '${_controller.counter}' : "0",
+                style: TextStyle(fontSize: 25),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   FloatingActionButton(
-                      onPressed: () {}, child: Icon(Icons.add)),
+                      onPressed: () {
+                        setState(() {
+                          _controller.increment();
+                        });
+                      },
+                      child: Icon(Icons.add)),
                   FloatingActionButton(
-                      onPressed: () {}, child: Icon(Icons.remove)),
+                      onPressed: () {
+                        setState(() {
+                          _controller.decrement();
+                        });
+                      },
+                      child: Icon(Icons.remove)),
                 ],
               )
             ],
